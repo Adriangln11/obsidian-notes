@@ -1,5 +1,5 @@
 ---
-id: 1721845302-QKRJ-rendering
+id: rendering
 aliases:
   - Tipos de renderizado
 tags:

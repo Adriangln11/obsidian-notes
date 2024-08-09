@@ -1,11 +1,12 @@
 ---
-id: 1723135270-AAOH-nginx
+id: nginx
 aliases:
   - NGINX
 tags:
   - severs
   - proxy
   - backend
+  - devops
 ---
 
 # NGINX
@@ -48,24 +49,58 @@ Puede tomar las peticiones recibidas y modificar la URL según sea necesario par
 
 También puede implementar métodos de autenticación al momento de conceder acceso a recursos.
 
+6. Logs y Reports
+
+Una utilidad que puede tener NGINX es el registro de logs, esto quiere decir que puedes monitorear las peticiones que se reciben y posteriormente tener un reporte con la información resultante.
+
 ## Configuración básica
 
 ```nginx
-upstream app_name {
+
+upstream app-name {
     #least_conn; #Dirige el trafico al server menos colapsado
     #ip_hash; #Hace un hash de la ip solicitante y siempre la dirige al mismo server
 
-    server 172.18.0.2; #Servidor de donde se tomará el contenido
-    server 172.18.0.2; #Servidor de donde se tomará el contenido
-    server 172.18.0.2; #Servidor de donde se tomará el contenido
+    server 172.17.0.2; #Servidor de donde se tomará el contenido
+    server 172.17.0.3; #Servidor de donde se tomará el contenido
+    #server 172.18.0.2; #Servidor de donde se tomará el contenido
     }
 
+# http {
+#     include mime.types;
+#     default_type application/octet-stream;
+#
+#     sendfile on;
+#     keepalive_timeout 65;
+#
+#     access_log /var/log/nginx/acces.goaccess.log combied;  #Direccion del archivo de logs y su tipo de formateo
+#     }
+
+#Configuración de caché
+proxy_cache_path -var keys_zone=cache-name:10000m;
+
 server {
-    listen 8080; #Puerto en donde se mostrara el contenido
+    listen 80; #Puerto en donde se mostrara el contenido
     server_name localhost; #Nombre del host
 
-    location / #Ruta que se visita {
-        proxy_pass http://apphost; #Hacia donde se mostrara el contenido
+    location / {
+        #proxy_cache cache-name;
+        #proxy_cache_valid any 30m;
+        #proxy_cache_background_update on;
+        #proxy_cache_methods GET POST HEAD;
+        #proxy_cache_key $proxy_host$request_uri$cockie_sessionid;
+
+        proxy_pass http://app-name; #Hacia donde se mostrara el contenido
+
+        satisfy all;
+        allow 172.17.0.0/24;
+        deny all;
+
+        auth_basic "Autentication";
+        auth_basic_user_file /.htpasswd;
+        }
+    location /serv2 {
+        proxy_pass http://172.17.0.3/;
         }
     }
 ```

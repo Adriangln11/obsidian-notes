@@ -1,5 +1,5 @@
 ---
-id: 1722879492-WKOB-software-architecture
+id: software-architecture
 aliases:
   - Arquitectura de Software
 tags:
