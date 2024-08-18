@@ -5,6 +5,7 @@ aliases:
 tags:
   - architecture
   - clean arch
+  - algorithms
 ---
 
 # Design Patterns
@@ -64,7 +65,7 @@ Se encargan de la comunicación efectiva y la asignación de responsabilidades e
 
 ## `Patrones de creación`
 
-1.  [[Factory Method]]: Proporciona una interfaz para crear objetos en una superclase, pero permite que las subclases alteren el tipo de objetos que se crearán.
+1.  [Factory Method](./factory-method.md): Proporciona una interfaz para crear objetos en una superclase, pero permite que las subclases alteren el tipo de objetos que se crearán.
 2.  [[Abstract Factory]]: Permite introducir familias de objetos relacionados sin especificar sus clases concretas.
 3.  [[Constructor]]: Permite construir objetos complejos paso a paso. Permite introducir diferentes tipos y representaciones de un objeto utilizando el mismo código de construcción.
 4.  [[Prototype]]: Permite copiar objetos existentes sin que el código dependa de sus clases.
